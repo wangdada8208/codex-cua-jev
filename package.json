@@ -8,7 +8,7 @@
     "codex-cua-bridge": "./bridge/server.mjs"
   },
   "scripts": {
-    "test": "node --test tests/core.test.mjs tests/bridge.test.mjs",
+    "test": "node --test tests/core.test.mjs tests/bridge.test.mjs tests/integration-mcp.test.mjs",
     "start": "node bridge/server.mjs",
     "install-skill": "node scripts/install-skill.mjs",
     "package-plugin": "node scripts/package-plugin.mjs"

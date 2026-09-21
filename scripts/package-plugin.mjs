@@ -101,11 +101,17 @@ copyFile("skill/SKILL.md", "skills/jev-use/SKILL.md");
 
 const iconSource = path.join(os.homedir(), ".minimax/plugins/codex-computer-use/icon.png");
 const iconDarkSource = path.join(os.homedir(), ".minimax/plugins/codex-computer-use/icon-dark.png");
+const builtinIconSource = path.join(os.homedir(), ".minimax/.builtin-skills/plugin-creator/assets/category-icons/productivity/productivity-1.png");
+const builtinDarkSource = path.join(os.homedir(), ".minimax/.builtin-skills/plugin-creator/assets/category-icons-dark/productivity/productivity-1.png");
 
 if (fs.existsSync(iconSource)) {
   fs.copyFileSync(iconSource, path.join(targetDir, "icon.png"));
   fs.copyFileSync(iconDarkSource, path.join(targetDir, "icon-dark.png"));
-  console.log("  ✓ Preserved icons in plugin root");
+  console.log("  ✓ Preserved existing icons in plugin root");
+} else if (fs.existsSync(builtinIconSource)) {
+  fs.copyFileSync(builtinIconSource, path.join(targetDir, "icon.png"));
+  fs.copyFileSync(builtinDarkSource, path.join(targetDir, "icon-dark.png"));
+  console.log("  ✓ Installed default icons from built-in asset pool");
 }
 
 console.log("\n[Success] MiniMax Code plugin successfully packaged and deployed to:");

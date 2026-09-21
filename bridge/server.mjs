@@ -44,7 +44,6 @@ const env = {
   CODEX_HOME: paths.codexHome,
   SKY_CUA_SERVICE_PATH: paths.skyApp,
   NODE_REPL_TRUSTED_SERVICES: JSON.stringify({
-    browser: `${paths.codexHome}/plugins/cache/openai-bundled/browser/26.915.31945/scripts/browser-service.mjs`,
     sky: "@oai/sky/service",
   }),
 };
@@ -105,15 +104,20 @@ rlChild.on("line", (line) => {
 
 child.on("exit", (code, signal) => {
   dismissSkyOverlay();
-  process.exit(code ?? (signal ? 1 : 0));
+  if (signal === "SIGTERM" || signal === "SIGINT") {
+    process.exit(0);
+  }
+  process.exit(code ?? 0);
 });
 
 process.on("SIGINT", () => {
   dismissSkyOverlay();
   child.kill("SIGINT");
+  process.exit(0);
 });
 
 process.on("SIGTERM", () => {
   dismissSkyOverlay();
   child.kill("SIGTERM");
+  process.exit(0);
 });

@@ -18,7 +18,14 @@ export function getResolvedPaths() {
   const cuaReplMjs = path.join(cuaNodeBase, "lib/node_modules/@oai/cua-repl/bin/cua-repl.mjs");
   const nodeModulesDir = path.join(cuaNodeBase, "lib/node_modules");
 
-  const skyApp = path.join(codexHome, "computer-use/Codex Computer Use.app");
+  const skyAppCandidates = [
+    path.join(codexHome, "computer-use/Codex Computer Use.app"),
+    path.join(home, "Applications/Codex Computer Use.app"),
+    "/Applications/Codex Computer Use.app",
+  ];
+
+  let skyApp = skyAppCandidates.find((p) => fs.existsSync(p)) || skyAppCandidates[0];
+
   const skyClientBin = path.join(
     skyApp,
     "Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"

@@ -1,8 +1,13 @@
 node_modules/
+.env
 .env.local
-.env.*.local
+.env.*
+!.env.example
 *.log
 runs/
 .DS_Store
 dist/
 tmp/
+*.key
+*.pem
+credentials.json
