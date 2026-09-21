@@ -55,7 +55,7 @@ Run this single command in your macOS terminal to configure all installed agents
 curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash
 ```
 
-See [docs/universal-agent-guide.md](docs/universal-agent-guide.md) for full instructions and one-click prompts for Claude Code, Cursor, MiniMax Code, Codex, Windsurf, OpenCode, Roo Code, and Zed.
+See [docs/universal-agent-guide.md](docs/universal-agent-guide.md) for full instructions and one-click prompts for Claude Code, Cursor, MiniMax Code, Codex, Windsurf, OpenCode, Roo Code, Zed, ZCode, and PiCode.
 
 ### Manual Setup and Test
 

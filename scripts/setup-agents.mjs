@@ -173,6 +173,40 @@ if (targetAgent === "all" || targetAgent === "zed") {
   }
 }
 
+// 8. ZCode (Z.ai / Zhipu ADE)
+if (targetAgent === "all" || targetAgent === "zcode") {
+  const zcodeDir = path.join(HOME, ".zcode");
+  if (fs.existsSync(zcodeDir) || targetAgent === "zcode") {
+    const mcpConfigFile = path.join(zcodeDir, "mcp.json");
+    const config = safeReadJson(mcpConfigFile);
+    config.mcpServers = config.mcpServers || {};
+    config.mcpServers["codex-computer-use"] = {
+      command: "node",
+      args: [BRIDGE_PATH],
+    };
+    safeWriteJson(mcpConfigFile, config);
+    installSkillTo(path.join(zcodeDir, "skills/codex-cua-jev"));
+    configured.push("ZCode (Z.ai ADE)");
+  }
+}
+
+// 9. PiCode (Pi Coding Agent)
+if (targetAgent === "all" || targetAgent === "pi" || targetAgent === "picode") {
+  const piDir = path.join(HOME, ".pi");
+  if (fs.existsSync(piDir) || targetAgent === "pi" || targetAgent === "picode") {
+    installSkillTo(path.join(piDir, "agent/skills/codex-cua-jev"));
+    const mcpConfigFile = path.join(piDir, "agent/mcp.json");
+    const config = safeReadJson(mcpConfigFile);
+    config.mcpServers = config.mcpServers || {};
+    config.mcpServers["codex-computer-use"] = {
+      command: "node",
+      args: [BRIDGE_PATH],
+    };
+    safeWriteJson(mcpConfigFile, config);
+    configured.push("PiCode (Pi Coding Agent)");
+  }
+}
+
 console.log("--------------------------------------------------");
 if (configured.length > 0) {
   console.log("Successfully auto-configured the following agents:");

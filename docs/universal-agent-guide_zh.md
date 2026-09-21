@@ -147,3 +147,53 @@ curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scr
   }
 }
 ```
+
+---
+
+### 9. ZCode (智谱 Z.ai 桌面 ADE)
+
+把以下内容直接发送给 ZCode 任务窗口：
+
+```text
+请为当前 ZCode 环境配置 codex-cua-jev。在终端执行：
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- zcode
+确认 ~/.zcode/mcp.json 已包含 codex-computer-use 服务配置。
+```
+
+或者手动检查 `~/.zcode/mcp.json`：
+
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+
+---
+
+### 10. PiCode (Pi Coding Agent)
+
+把以下内容直接发送给 Pi 终端：
+
+```text
+请为 Pi 配置 codex-cua-jev。在终端执行：
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- pi
+确认 ~/.pi/agent/skills/codex-cua-jev/SKILL.md 已正确安装。
+```
+
+或者配置 `~/.pi/agent/mcp.json`：
+
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```

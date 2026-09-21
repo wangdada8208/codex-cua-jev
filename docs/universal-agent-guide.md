@@ -153,3 +153,53 @@ Add to `~/.config/zed/settings.json`:
   }
 }
 ```
+
+---
+
+### 9. ZCode (Z.ai / Zhipu ADE)
+
+Paste this prompt directly into ZCode:
+
+```text
+Please configure codex-cua-jev for ZCode. Run:
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- zcode
+Confirm ~/.zcode/mcp.json contains the codex-computer-use server configuration.
+```
+
+Or configure `~/.zcode/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/USER/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+
+---
+
+### 10. PiCode (Pi Coding Agent)
+
+Paste this prompt directly into Pi:
+
+```text
+Please set up codex-cua-jev for Pi. Run:
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- pi
+Verify that ~/.pi/agent/skills/codex-cua-jev/SKILL.md is installed and ~/.pi/agent/mcp.json has codex-computer-use registered.
+```
+
+Or configure `~/.pi/agent/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/USER/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```

@@ -18,7 +18,7 @@ macOS 版官方 ChatGPT / Codex 随附了高效的原生桌面操作引擎（`cu
 本项目针对上述问题提供了完整的解决方案：
 1. **透明协议桥接器**：自动处理本地授权握手，并在进程退出时自动注销屏幕悬浮遮罩。
 2. **Jev 智能决策循环**：通过 TypeSafe Jev 模型直接从控件树中选择目标与动作，省去像素坐标猜测。
-3. **通用智能体接入与插件封装**：支持 Claude Code、Cursor、OpenCode 以及 MiniMax Code。
+3. **通用智能体接入与插件封装**：支持 Claude Code、Cursor、OpenCode、MiniMax Code、ZCode 与 PiCode 等各大平台。
 
 ## 系统架构
 
