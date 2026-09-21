@@ -1,0 +1,30 @@
+{
+  "name": "codex-cua-jev",
+  "version": "1.0.0",
+  "description": "Bridge Codex's official native macOS Computer Use runtime to any AI agent without login, powered by TypeSafe's Jev model for precise accessibility-tree decisions.",
+  "type": "module",
+  "main": "bridge/server.mjs",
+  "bin": {
+    "codex-cua-bridge": "./bridge/server.mjs"
+  },
+  "scripts": {
+    "test": "node --test tests/core.test.mjs tests/bridge.test.mjs",
+    "start": "node bridge/server.mjs",
+    "install-skill": "node scripts/install-skill.mjs",
+    "package-plugin": "node scripts/package-plugin.mjs"
+  },
+  "keywords": [
+    "computer-use",
+    "codex",
+    "jev",
+    "typesafe",
+    "accessibility",
+    "macos",
+    "mcp",
+    "claude-code",
+    "agent",
+    "minimax"
+  ],
+  "author": "wangdada8208",
+  "license": "MIT"
+}
