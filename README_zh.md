@@ -5,6 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform: macOS](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)](https://apple.com/macos)
 
+[English README](README.md) | [全智能体接入指南 (docs/universal-agent-guide_zh.md)](docs/universal-agent-guide_zh.md)
+
 ## 为什么需要本项目
 
 传统的电脑控制智能体通常依赖全屏截图并传入多模态大模型。这种方式每步消耗数万甚至数十万 Token，且极易出现像素坐标定位偏差。
@@ -18,12 +20,12 @@ macOS 版官方 ChatGPT / Codex 随附了高效的原生桌面操作引擎（`cu
 本项目针对上述问题提供了完整的解决方案：
 1. **透明协议桥接器**：自动处理本地授权握手，并在进程退出时自动注销屏幕悬浮遮罩。
 2. **Jev 智能决策循环**：通过 TypeSafe Jev 模型直接从控件树中选择目标与动作，省去像素坐标猜测。
-3. **通用智能体接入与插件封装**：支持 Claude Code、Cursor、OpenCode、MiniMax Code、ZCode 与 PiCode 等各大平台。
+3. **通用智能体接入与插件封装**：原生支持 Claude Code、Cursor、MiniMax Code、ZCode、PiCode、Codex CLI、Windsurf、OpenCode、Roo Code 与 Zed。
 
 ## 系统架构
 
 ```
-[ AI 智能体 ] (Claude Code / Cursor / OpenCode / MiniMax)
+[ AI 智能体 ] (Claude Code / Cursor / MiniMax / ZCode / PiCode / OpenCode)
       │
       ▼ (标准 MCP stdio 协议)
 [ bridge/server.mjs ]
@@ -47,64 +49,163 @@ macOS 版官方 ChatGPT / Codex 随附了高效的原生桌面操作引擎（`cu
 - 在系统设置中为终端或对应的 Agent 授予辅助功能权限。
 - 在 [console.typesafe.ai](https://console.typesafe.ai/keys) 获取 TypeSafe API Key。
 
-## 快速上手
+---
 
-### 终端通用一键安装
+## 终端通用一键安装（推荐）
 
-在 macOS 终端中运行以下单行命令，自动识别并配置本机所有安装的智能体：
+在 macOS 终端中运行下面这行命令，脚本会自动检测本机安装的所有智能体并一次性完成全部配置：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash
 ```
 
-详细的一键 Agent 提示词与各家软件配置见 [docs/universal-agent-guide_zh.md](docs/universal-agent-guide_zh.md)。
+该命令会自动克隆仓库到 `~/.codex-cua-jev`，完成 MCP 服务注册、Skill 文件拷贝与 MiniMax 插件打包。
 
-### 手动安装与测试
+---
 
+## 主流智能体独立配置与一键提示词
+
+### 1. Claude Code
+直接运行注册命令：
 ```bash
-git clone https://github.com/wangdada8208/codex-cua-jev.git
-cd codex-cua-jev
-echo 'TYPESAFE_API_KEY=你的Key' > .env.local
-npm test
+claude mcp add codex-computer-use -- node "$HOME/.codex-cua-jev/bridge/server.mjs"
+```
+或将此提示词直接发给 Claude Code：
+```text
+请帮我安装并配置 codex-cua-jev：
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- claude
+检查 ~/.codex-cua-jev/.env.local 是否有 TYPESAFE_API_KEY，随后调用 codex-computer-use 工具列出正在运行的应用以验证可用性。
 ```
 
-### 2. 接入各家 AI 智能体
-
-#### Claude Code
-
-通过命令行一键注册：
-
-```bash
-claude mcp add codex-computer-use -- node $(pwd)/bridge/server.mjs
-```
-
-#### Cursor / Windsurf / Cline
-
-在 MCP 配置文件中添加如下条目：
-
+### 2. Cursor
+在 `~/.cursor/mcp.json` 中配置：
 ```json
 {
   "mcpServers": {
     "codex-computer-use": {
       "command": "node",
-      "args": ["/绝对路径/codex-cua-jev/bridge/server.mjs"],
-      "env": {
-        "TYPESAFE_API_KEY": "你的Key"
+      "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+或将此提示词发给 Cursor Composer：
+```text
+请为 Cursor 配置 codex-cua-jev：
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- cursor
+```
+
+### 3. MiniMax Code / Mavis (本地插件)
+一键打包并部署为原生插件：
+```bash
+npm run package-plugin
+```
+安装后在 MiniMax Code 输入 `@` 即可直接看到 `Codex Computer Use` 和 `@jev-use`。
+提示词：
+```text
+请帮我安装 codex-cua-jev 插件：
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- minimax
+```
+
+### 4. ZCode (智谱 Z.ai 桌面 ADE)
+在 `~/.zcode/mcp.json` 中配置：
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+或发给 ZCode 任务窗口：
+```text
+请为当前 ZCode 环境配置 codex-cua-jev：
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- zcode
+```
+
+### 5. PiCode (Pi Coding Agent)
+配置 `~/.pi/agent/mcp.json` 并安装技能到 `~/.pi/agent/skills/codex-cua-jev`：
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+或发给 Pi 终端：
+```text
+请为 Pi 配置 codex-cua-jev：
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash -s -- pi
+```
+
+### 6. Codex CLI
+在 `~/.codex/config.toml` 中追加：
+```toml
+[mcp_servers.codex-computer-use]
+command = "node"
+args = ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+```
+
+### 7. Windsurf (Codeium)
+在 `~/.codeium/windsurf/mcp_config.json` 中配置：
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+
+### 8. Roo Code / Cline (VS Code)
+在 `cline_mcp_settings.json` 中配置：
+```json
+{
+  "mcpServers": {
+    "codex-computer-use": {
+      "command": "node",
+      "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+
+### 9. OpenCode
+在 `opencode.json` 中配置：
+```json
+{
+  "mcp": {
+    "codex-computer-use": {
+      "type": "local",
+      "command": ["node", "/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
+    }
+  }
+}
+```
+
+### 10. Zed 编辑器
+在 `~/.config/zed/settings.json` 中配置：
+```json
+{
+  "context_servers": {
+    "codex-computer-use": {
+      "command": {
+        "path": "node",
+        "args": ["/Users/你的用户名/.codex-cua-jev/bridge/server.mjs"]
       }
     }
   }
 }
 ```
 
-#### MiniMax Code / Mavis 插件封装方法
-
-运行内置打包脚本即可将本项目打包并安装为 MiniMax Code 本地插件：
-
-```bash
-npm run package-plugin
-```
-
-打包完成后，在 MiniMax Code 对话框中输入 `@`。列表中将直接显示 `Codex Computer Use` 和 `@jev-use`。详细封装规范请参考 [skill/references/plugin-guide.md](skill/references/plugin-guide.md)。
+---
 
 ## 智能体脚本调用示例
 
