@@ -49,7 +49,17 @@ macOS 版官方 ChatGPT / Codex 随附了高效的原生桌面操作引擎（`cu
 
 ## 快速上手
 
-### 1. 克隆项目并验证环境
+### 终端通用一键安装
+
+在 macOS 终端中运行以下单行命令，自动识别并配置本机所有安装的智能体：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash
+```
+
+详细的一键 Agent 提示词与各家软件配置见 [docs/universal-agent-guide_zh.md](docs/universal-agent-guide_zh.md)。
+
+### 手动安装与测试
 
 ```bash
 git clone https://github.com/wangdada8208/codex-cua-jev.git

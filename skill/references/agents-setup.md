@@ -2,6 +2,16 @@
 
 This guide details how to register `codex-cua-jev` as an MCP server across various AI coding agents.
 
+## Universal Automated One-Liner
+
+Run this command to auto-detect and configure every installed agent:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/wangdada8208/codex-cua-jev/main/scripts/install.sh | bash
+```
+
+Detailed one-click prompts for Claude Code, Cursor, MiniMax, Codex, Windsurf, Roo Code, and Zed are available in `docs/universal-agent-guide.md`.
+
 ## Prerequisites
 
 1. **macOS** with official desktop ChatGPT.app installed (provides `cua_node` runtime).
