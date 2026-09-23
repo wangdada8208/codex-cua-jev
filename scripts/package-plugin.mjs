@@ -96,8 +96,28 @@ fs.writeFileSync(
 );
 console.log("  ✓ Generated servers.mcp.json");
 
-copyFile("skill/SKILL.md", "skills/codex-computer-use/SKILL.md");
-copyFile("skill/SKILL.md", "skills/jev-use/SKILL.md");
+function writeSkillWithExactName(targetRelPath, exactName, description) {
+  const dst = path.join(targetDir, targetRelPath);
+  const src = path.join(REPO_ROOT, "skill/SKILL.md");
+  let content = fs.existsSync(src) ? fs.readFileSync(src, "utf8") : "";
+  content = content.replace(/^name:\s*.+$/m, `name: ${exactName}`);
+  if (description) {
+    content = content.replace(/^description:\s*\|?\n(?:\s+.*\n)*/m, `description: |\n  ${description}\n`);
+  }
+  fs.writeFileSync(dst, content);
+  console.log(`  ✓ Generated skill ${targetRelPath} with name: ${exactName}`);
+}
+
+writeSkillWithExactName(
+  "skills/codex-computer-use/SKILL.md",
+  "codex-computer-use",
+  "使用本机 Codex 官方原生 Computer Use 控制 macOS 桌面软件与 GUI，配合 Jev 自动决策。"
+);
+writeSkillWithExactName(
+  "skills/jev-use/SKILL.md",
+  "jev-use",
+  "用 Jev 模型根据界面文字智能选择下一步动作，由 Codex Computer Use 执行并核验。"
+);
 
 const iconSource = path.join(os.homedir(), ".minimax/plugins/codex-computer-use/icon.png");
 const iconDarkSource = path.join(os.homedir(), ".minimax/plugins/codex-computer-use/icon-dark.png");
